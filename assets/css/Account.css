@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('background');
+    background-size: cover;
+}
+.glass-container {
+    width: 400px;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.123);
+    border-radius: 10px;
+    border: 1px solid #fff;
+}
+.glass-container::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: -1;
+}
+.login-box {
+    max-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+}
+h2 {
+    color: #081457;
+    margin-top: 30px;
+    margin-bottom: -20px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+input {
+    padding: 10px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #081457;
+    font-size: 13px;
+}
+input::placeholder {
+    color: #3e6c9a;
+}
+input:focus {
+    outline: none;
+}
+.options {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #3e6c9a;
+}
+.options input {
+    margin-right: 5px;
+    margin-top: 0px;
+}
+.options a {
+    text-decoration: none;
+    color: white;
+    margin-left: auto;
+}
+button {
+    background: #fff;
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+button:hover {
+    background-color: #c2e1ff;
+    outline: 1px solid #fff;
+}
+p {
+    font-size: 12px;
+    color: #3e6c9a;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+#register-link, #login-link {
+    text-decoration: none;
+    color: #3e6c9a;
+    font-weight: bold;
+}
+
+.login-box select {
+    width: 100%;
+    padding: 7px;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px; 
+    color: #3e6c9a;
+    background: transparent;
+    font-size: 13px;
+    border: 1px solid #fff;
+}
+
+.login-box label { 
+    margin-top: 10px; 
+    font-size: 13px;
+    color: #3e6c9a;
+}

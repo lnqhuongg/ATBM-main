@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <title>Admin - Bank Management System</title>
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Admin - Bank Management System</h1>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('customer')">Khách hàng</a></li>
+                <li><a href="#" onclick="showSection('employee')">Nhân viên</a></li>
+                <li><a href="#" onclick="showSection('transactions')">Giao dịch</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="employeeName" class="user-name"></span>
+                <!-- <div class="user-details-container">
+                    <div class="user-details" id="userDetails">
+                        <p><strong>Họ và tên:</strong> Nguyễn Văn A</p>
+                        <p><strong>Mã nhân viên:</strong> NV12345</p>
+                        <p><strong>Ngày sinh:</strong> 01/01/1990</p>
+                        <p><strong>Chức vụ:</strong> Quản lý</p>
+                        <p><strong>Địa chỉ:</strong> 123 Đường ABC, TP. HCM</p>
+                        <button onclick="editPassword()">Đổi mật khẩu</button>
+                    </div>
+                </div> -->
+                <button onclick="logout()" class="logout-button"><b>Đăng xuất</b></button>
+            </div>   
+        </nav>
+    </header>
+    <main>
+        <!-- Quản lý tài khoản khách hàng -->
+        <section id="customer" class="content-section">
+            <h2>Quản lý tài khoản khách hàng</h2>
+            <button type="submit" onclick="addNewCustomer('add-new-customer')" class="add_new_customer"><b>Thêm khách hàng</b></button>
+            <table>
+                <thead>
+                    <tr id="nameOfColumn">
+                        <th>Mã khách hàng</th>
+                        <th>Tên khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Trạng thái</th>
+                        <th>Giới tính</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="customerAccountTableBody">
+                    <!-- Dữ liệu -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Quản lý tài khoản nhân viên -->
+        <section id="employee" class="content-section">
+            <h2>Quản lý tài khoản nhân viên</h2>
+            <button onclick="addNewCustomer('add-new-teller')"><b>Thêm nhân viên</b></button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã nhân viên</th>
+                        <th>Tên nhân viên</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Trạng thái</th>
+                        <th>Giới tính</th>
+                        <th>Chức vụ</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="employeeAccountTableBody">
+                    <!-- Dữ liệu -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Xem lịch sử giao dịch -->
+        <section id="transactions" class="content-section">
+            <h2>Lịch sử giao dịch</h2>
+            <form id="transactionFilterForm">
+                <input type="text" id="transactionSearch" placeholder="Mã giao dịch hoặc số điện thoại" />
+                <input type="date" id="transactionDate" placeholder="Ngày giao dịch" />
+                <button type="submit" class="filter-transaction-btn">Lọc</button>
+                <button type="submit" class="reset-transaction-list">Đặt lại</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã GD</th>
+                        <th>SĐT người gửi</th>
+                        <th>Tên người gửi</th>
+                        <th>SĐT người nhận</th>
+                        <th>Tên người nhận</th>
+                        <th>Số tiền</th>
+                        <th>Loại phí</th>
+                        <th>Ngày GD</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionTableBody">
+                    <!-- Dữ liệu -->
+                </tbody>
+            </table>
+        </section>
+        <!-- Form Đổi Mật Khẩu -->
+        <!-- <div id="change-password-section" style="display: none;">
+            <h2>Đổi Mật Khẩu</h2>
+            <form id="change-password-form">
+                <div>
+                    <label for="full-name">Họ và Tên:</label>
+                    <input type="text" id="full-name" name="full-name" value="Nguyễn Văn A" disabled>
+                </div>
+
+                <div>
+                    <label for="employee-id">Mã Nhân Viên:</label>
+                    <input type="text" id="employee-id" name="employee-id" value="NV123" disabled>
+                </div>
+
+                <div>
+                    <label for="dob">Ngày Tháng Năm Sinh:</label>
+                    <input type="date" id="dob" name="dob" value="1990-01-01" disabled>
+                </div>
+
+                <div>
+                    <label for="position">Chức Vụ:</label>
+                    <input type="text" id="position" name="position" value="Nhân Viên" disabled>
+                </div>
+
+                <div>
+                    <label for="address">Địa Chỉ:</label>
+                    <input type="text" id="address" name="address" value="Hà Nội" disabled>
+                </div>
+
+                <div>
+                    <label for="current-password">Mật Khẩu Hiện Tại:</label>
+                    <input type="password" id="current-password" name="current-password" required>
+                </div>
+
+                <div>
+                    <label for="new-password">Mật Khẩu Mới:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+
+                <div>
+                    <label for="confirm-password">Xác Nhận Mật Khẩu Mới:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+
+                <button type="submit">Đổi Mật Khẩu</button>
+            </form>
+        </div> -->
+        <div id="add-new-customer" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('add-new-customer')">&times;</span>
+                <form class="formCustomer" id="customerAddForm">
+                    <h2>Khách hàng mới</h2>
+                    <input type="text" placeholder="Tên nhân viên" required name="customer-name"/>
+                    <input type="text" placeholder="Địa chỉ" required name="customer-address"/>
+                    <input type="text" placeholder="Số điện thoại" required name="customer-phone"/>
+                    <input type="email" placeholder="Email" required name="customer-email"/>
+                    <input type="password" placeholder="Mật khẩu" required name="customer-password"/>
+                    <input type="password" placeholder="Xác nhận mật khẩu" required name="customer-confirm-password"/>
+                    <input type="password" placeholder="Mã pin" required name="customer-pin"/>
+                    <div>
+                        <label>Giới tính</label>
+                        <select name="gender-select" style="width: 100px;" required>
+                            <option value="true">Nữ</option>
+                            <option value="false">Nam</option>
+                        </select>
+                    </div>
+                    <button class="addCustomerModal" type="submit"><b>Thêm khách hàng</b></button>
+                </form>
+            </div>
+        </div>
+        <div id="edit-customer" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('edit-customer')">&times;</span>
+                <form class="formCustomer" id="customerEditForm">
+                    <h2>Sửa thông tin khách hàng</h2>
+                    <input type="text" placeholder="Tên nhân viên" required name="customer-name"/>
+                    <input type="text" placeholder="Địa chỉ" required name="customer-address"/>
+                    <input type="text" placeholder="Số điện thoại" required name="customer-phone"/>
+                    <input type="email" placeholder="Email" required name="customer-email"/>
+                    <input type="password" placeholder="Mật khẩu" required name="customer-password"/>
+                    <input type="password" placeholder="Xác nhận mật khẩu" required name="customer-confirm-password"/>
+                    <input type="password" placeholder="Mã pin" required name="customer-pin"/>
+                    <div>
+                        <label>Giới tính</label>
+                        <select name="gender-select" style="width: 100px;" required>
+                            <option value="true">Nữ</option>
+                            <option value="false">Nam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Trạng thái</label>
+                        <select name="status-select" style="width: 100px;">
+                            <option value="1">Đang hoạt động</option>
+                            <option value="2">Ngừng hoạt động</option>
+                        </select>
+                    </div>
+                    <button class="editCustomerModal" id="edit-customer-btn" type="submit">Lưu thông tin</button>
+                </form>
+            </div>
+        </div>
+        <div id="add-new-teller" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('add-new-teller')">&times;</span>
+                <form class="formCustomer" id="tellerAddForm">
+                    <h2>Nhân viên mới</h2>
+                    <input type="text" placeholder="Tên nhân viên" required name="employee-name"/>
+                    <input type="text" placeholder="Địa chỉ" required name="employee-address"/>
+                    <input type="text" placeholder="Số điện thoại" required name="employee-phone"/>
+                    <input type="password" placeholder="Mật khẩu" required name="employee-password"/>
+                    <input type="password" placeholder="Xác nhận mật khẩu" required name="employee-confirm-password"/>
+                    <input type="email" placeholder="Email" required name="employee-email"/>
+                    <input type="password" placeholder="Mã pin" required name="employee-pin"/>
+                    <div>
+                        <label>Giới tính</label>
+                        <select name="gender-select" style="width: 100px;">
+                            <option value="true">Nữ</option>
+                            <option value="false">Nam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Chức vụ</label>
+                        <select name="position-select" style="width: 100px;">
+                            <option value="1">Admin</option>
+                            <option value="2">Giao dịch viên</option>
+                        </select>
+                    </div>
+                    <button class="addEmployeeModal" type="submit"><b>Thêm nhân viên</b></button>
+                </form>
+            </div>
+        </div>
+        <div id="edit-teller" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('add-new-teller')">&times;</span>
+                <form class="formCustomer" id="tellerEditForm">
+                    <h2>Sửa thông tin nhân viên</h2>
+                    <input type="text" placeholder="Tên nhân viên" required name="employee-name"/>
+                    <input type="text" placeholder="Địa chỉ" required name="employee-address"/>
+                    <input type="text" placeholder="Số điện thoại" required name="employee-phone"/>
+                    <input type="password" placeholder="Mật khẩu" required name="employee-password"/>
+                    <input type="password" placeholder="Xác nhận mật khẩu" required name="employee-confirm-password"/>
+                    <input type="email" placeholder="Email" required name="employee-email"/>
+                    <input type="password" placeholder="Mã pin" required name="employee-pin"/>
+                    <div>
+                        <label>Giới tính</label>
+                        <select name="gender-select" style="width: 100px;">
+                            <option value="true">Nữ</option>
+                            <option value="false">Nam</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Chức vụ</label>
+                        <select name="position-select" style="width: 100px;">
+                            <option value="1">Admin</option>
+                            <option value="2">Giao dịch viên</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Trạng thái</label>
+                        <select name="status-select" style="width: 100px;">
+                            <option value="1">Đang hoạt động</option>
+                            <option value="0">Ngừng hoạt động</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="edit-employee-btn">Lưu thông tin</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="/assets/js/admin.js"></script>
+</body>
+</html>

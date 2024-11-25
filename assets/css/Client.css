@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-image: url('background');
+    background-size: cover;
+    border-radius: 15px;
+}
+
+header {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.078);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.123);
+    border-radius: 10px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.user-name {
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.balance-container {
+    display: flex;
+    align-items: center;
+}
+
+#account-balance {
+    padding: 5px;
+    border: 1px solid #e9e8e8;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 100px;
+    margin-right: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.049);
+}
+
+#account-balance:focus {
+    outline: none;
+}
+
+.search-bar {
+    margin-left: 66%;
+    width:150px;
+    color:#000;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.105);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f2fafe;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.125);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 16px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #fef2f24e;
+}
+
+.dropbtn {
+    background-color: #f2fafe;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.082);
+    border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    background-color: #ffffff;
+}
+
+.container {
+    display: flex;
+    width: 95%;
+    margin-top: 20px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    background: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 25px;
+    border: none;
+    border: 1px solid #fff;
+    font-size: 13px;
+}
+
+.sidebar-right {
+    flex: 2;
+    margin-left: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 25px;
+    border: none;
+    background: transparent;
+    border: 1px solid #ffffff;
+    color: #000000;
+    font-size: 13px;
+    width: 66.67%;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+}
+
+.sidebar-right p {
+    font-size: 15px;
+}
+
+.search-content-calendar {
+    margin-right: 20px;
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Distribute space between items */
+    width: 100%; /* Ensure it takes full width of sidebar-right */
+}
+
+.search-content-calendar input[type="text"] {
+    width: 130%;
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.search-content-item-1 {
+    display: flex;
+    align-items: center;
+    width:200px;
+    margin-left: 140px;
+}
+
+.search-content-item-2 {
+    display: flex;
+    align-items: center;
+    width:200px;
+    margin-right: 50px;
+    margin-left: 20px;
+}
+
+.search-content-item i {
+    margin-right: 10px;
+    font-size: 16px;
+    color: #081457;
+}
+
+.search-content-item input {
+    border: 1px solid #fcf7f7;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.049);
+    font-size: 12px;
+    width: 50%;
+}
+
+.search-content-calendar label {
+    width:5px;
+    margin-right: 1px;
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.107);
+    background: transparent;
+    border: 1px solid #ffffffcf;
+    font-size: 13px;
+}
+
+#close-transfer-form {
+    width:40px;
+}
+
+button:hover {
+    background-color: #bfe8f8;
+}
+
+#transfer-form {
+    width:650px;
+    margin-top: 25px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.078);
+    display: none;
+}
+
+input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+input[type="text"]:hover {
+    background-color: #f1fcfd;
+}
+
+input[type="number"]:hover {
+    background-color: #f1fcfd;
+}
+
+/* Popup for password input */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #e5e5e5;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.058);
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.popup.active {
+    display: block;
+}
+
+.popup-content {
+    position: relative;
+    font-size: 70%;
+}
+
+.close {
+    position: absolute;
+    right: 8px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.password-input {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.password-input .circle {
+    width: 25px;
+    height: 25px;
+    margin: 0 5px;
+    text-align: center;
+    font-size: 28px;
+    border: 1px solid #e9e2e2;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+#confirm-password {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#confirm-password:hover {
+    background-color: #0056b3;
+}
+
+/* Popup for OTP input */
+.otp-input {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.otp-input #otp {
+    padding:18px;
+    width: 209px;
+    height: 25px;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid #f2eeee;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+#confirm-otp {
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#confirm-otp:hover {
+    background-color: #0056b3;
+}
+
+/* CSS cho table*/
+/* tableStyles.css */
+#MyTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#MyTable th, #MyTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#MyTable th {
+    background-color: #99effe;
+    color: black;
+    text-align: center;
+}
+
+#MyTable tr:hover {
+    background-color: #a5f6fc;
+}
+
+#MyTable td {
+    text-align: center;
+}

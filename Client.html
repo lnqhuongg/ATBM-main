@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khách hàng</title>
+    <link rel="stylesheet" href="assets/css/Client.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/Logo.jpeg" alt="Website Logo">
+            <div class="user-details">
+                <p class="user-name" name="user-name"></p>
+                <div class="balance-container">
+                    <input type="text" id="account-balance" value="" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="search-bar">
+            <p><i>Xin chào quý khách !</i></p>
+        </div>
+        <div class="user-info">
+            <img src="assets/avatar.jpg" alt="UserImage">
+            <div class="dropdown">
+                <button class="dropbtn">...</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="addNewCustomer('edit-info-cus')">Thông tin cá nhân</a>
+                    <div class="pop-up-client">
+                        <span class="close" onclick="closePopup('edit-info-cus')">&times;</span>
+                        <form action="" id="edit-info-cus">
+                            <input type="text" placeholder="Tên nhân viên" required name="customer-name"/>
+                            <input type="text" placeholder="Địa chỉ" required name="customer-address"/>
+                            <input type="text" placeholder="Số điện thoại" required name="customer-phone"/>
+                            <input type="email" placeholder="Email" required name="customer-email"/>
+                            <input type="password" placeholder="Mật khẩu" required name="customer-password"/>
+                            <input type="password" placeholder="Mã pin" required name="customer-pin"/>
+                            <div>
+                                <label>Giới tính</label>
+                                <select name="gender-select" style="width: 100px;">
+                                    <option value="true">Nữ</option>
+                                    <option value="false">Nam</option>
+                                </select>
+                            </div>
+                            <button class="addCustomerModal" type="submit"><b>Lưu thông tin</b></button>
+                        </form>
+                    </div>
+                    <a href="#" onclick="logout()">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <div class="sidebar">
+            <button id="transfer-button"><b>Chuyển tiền</b></button>
+        </div>
+        <div class="content" id="transfer-form" style="display: none;">
+            <input type="text" id="phoneNumber" placeholder="Số điện thoại người nhận">
+            <input type="text" placeholder="Tên người nhận" disabled>
+            <input type="text" id="amount" placeholder="Số tiền chuyển">
+            <input type="text" id="message" placeholder="Nội dung chuyển khoản">
+            <button id="submit-transfer" onclick="processTopUp()" type="button"><b>Chuyển tiền</b></button>
+            <button id="close-transfer-form"><<<</button>
+        </div>
+        <div class="sidebar-right">
+            <p><b><i>Lịch sử chuyển khoản</i></b></p>
+            <div id="history-panel">
+                <!-- Di chuyển phần tìm kiếm và chọn ngày lên trên bảng -->
+                <div class="search-content-calendar">
+                    <div><input type="text" placeholder="Tìm kiếm mã GD hoặc SDT..."></div>
+                    <div class="search-content-item-1">
+                        <i class="far fa-calendar-alt"></i>
+                        <label for="startDate"><b>Từ ngày</b></label> 
+                        <input id="startDate" placeholder="yyyy/mm/dd">
+                    </div>
+                    <div class="search-content-item-2">
+                        <i class="far fa-calendar-alt"></i>
+                        <label for="endDate"><b>Đến ngày</b></label> 
+                        <input id="endDate" placeholder="yyyy/mm/dd">
+                    </div>
+                </div>
+                <table id="MyTable">
+                    <thead>
+                        <tr>
+                            <th>Mã GD</th>
+                            <th>SĐT người nhận</th>
+                            <th>Tên người nhận</th>
+                            <th>Số tiền</th>
+                            <th>Loại phí</th>
+                            <th>Ngày GD</th>
+                            <th>Lời nhắn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                        <!-- Dữ liệu giao dịch sẽ hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Popup for password input -->
+        <!-- <div id="popup" class="popup">
+            <div class="popup-content">
+                <span id="close-popup" class="close">&times;</span>
+                <h2>Nhập Mật Khẩu</h2>
+                <div class="password-input">
+                    <input type="password" maxlength="1" class="circle">
+                    <input type="password" maxlength="1" class="circle">
+                    <input type="password" maxlength="1" class="circle">
+                    <input type="password" maxlength="1" class="circle">
+                    <input type="password" maxlength="1" class="circle">
+                    <input type="password" maxlength="1" class="circle">
+                </div>
+                <button id="confirm-password">Xác nhận</button>
+            </div>
+        </div> -->
+        <!-- Popup for OTP input -->
+        <!-- <div id="otp-popup" class="popup">
+            <div class="popup-content">
+                <span id="close-otp-popup" class="close">&times;</span>
+                <h2>Nhập OTP</h2>
+                <div class="otp-input">
+                    <input type="text" id="otp" maxlength="6" placeholder="Nhập OTP">
+                </div>
+                <button id="confirm-otp">Xác nhận</button>
+            </div>
+        </div> -->
+    </main>
+    <script src="assets/js/Client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script> 
+        flatpickr("#startDate", {}); 
+        flatpickr("#endDate", {}); 
+    </script>
+</body>
+</html>

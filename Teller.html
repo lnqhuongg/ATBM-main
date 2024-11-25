@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Teller - Bank Management System</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="assets/js/scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Teller - Bank Management System</h1>
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li>
+                    <a href="#" onclick="showSection('transactionHistory')">Lịch sử giao dịch</a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('topUp')">Nạp tiền cho khách hàng</a>
+                </li>
+            </ul>
+            <div class="user-info">
+                <span id="tellerName" class="user-name"></span>
+                <button onclick="logout()" class="logout-button">Đăng xuất</button>
+            </div>   
+        </nav>
+    </header>
+    <main>
+        <!-- Xem lịch sử giao dịch -->
+        <section id="transactionHistory" class="content-section">
+            <h2>Lịch sử giao dịch</h2>
+            <form id="transactionFilterForm">
+                <input type="text" id="searchPhone" placeholder="Số điện thoại" />
+                <input type="date" id="searchDate" placeholder="Ngày giao dịch" />
+                <button type="button" onclick="filterTransactions()">Lọc</button>
+                <button type="button" onclick="resetFilters()">Đặt lại</button>
+            </form>
+            <table id="MyTable">
+                <thead>
+                    <tr>
+                        <th>Mã GD</th>
+                        <th>SĐT người gửi</th>
+                        <th>Tên người gửi</th>
+                        <th>SĐT người nhận</th>
+                        <th>Tên người nhận</th>
+                        <th>Số tiền</th>
+                        <th>Loại phí</th>
+                        <th>Ngày GD</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionTableBody">
+                <!-- Dữ liệu giao dịch sẽ hiển thị ở đây -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Nạp tiền cho khách hàng -->
+        <section id="topUp" class="content-section">
+             <h2>Nạp tiền cho khách hàng</h2>
+            <form id="topUpForm">
+                <div>
+                    <input type="text" id="phoneNumber" placeholder="Số điện thoại khách hàng" required />
+                </div>
+                <div>
+                    <input type="text" id="accountName" placeholder="Tên khách hàng" disabled/>
+                </div>
+                <div>
+                    <input type="text" id="amount" placeholder="Số tiền chuyển" required />
+                </div>
+                <div>
+                    <input type="text" id="message" placeholder="Nội dung chuyển tiền" required />
+                </div>
+                <button type="button" onclick="processTopUp()">Nạp tiền</button>
+            </form>
+        </section>
+    </main>
+    <script src="assets/js/Teller.js"></script>
+</body>
+</html>
