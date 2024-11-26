@@ -178,15 +178,12 @@ function showSection(sectionId) {
 function getCurrentTransactionDate() {
     const now = new Date();
 
-    // Format the date as "YYYY-MM-DD HH:mm:ss"
+    // Format the date as "YYYY-MM-DD"
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
 
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return `${year}-${month}-${day}`;
 }
 
 function processTopUp() {
@@ -229,7 +226,7 @@ function processTopUp() {
     }
 
     const receiverID = receiverAccount.accountID;
-    const receiverName = receiverAccount.receiverName; 
+    const receiverName = receiverAccount.accountName; 
     const transactionDate = getCurrentTransactionDate();
 
     // Kiểm tra số dư của người chuyển tiền
@@ -240,7 +237,7 @@ function processTopUp() {
 
     // Dữ liệu gửi đi
     const transactionData = {
-        senderid: senderID,  // Sử dụng senderid
+        senderId: senderID,  // Sử dụng senderid
         senderPhone,
         senderName,
         receiverPhone,
@@ -249,6 +246,7 @@ function processTopUp() {
         amount,
         message,
         transactionDate: transactionDate,
+        message :"System Nap Tien"
     };
 
     console.log("Dữ liệu giao dịch:", transactionData);
@@ -267,6 +265,7 @@ function makeTransactionRequest(transactionData, amount, senderID, receiverPhone
         data: JSON.stringify(transactionData), 
         success: function (res) {
             alert("Giao dịch thành công!");
+
             console.log("Transaction Response:", res);
 
             updateBalance(senderID, -amount);  // Trừ tiền của người chuyển
@@ -284,6 +283,7 @@ function makeTransactionRequest(transactionData, amount, senderID, receiverPhone
                 amount: res.amount,
                 transactionDate: res.transactionDate,
                 transactionFee: res.transactionFee,
+                message: res.message
             });
         },
         error: function (err) {

@@ -1,3 +1,28 @@
+//Popup
+function showPopup(idForm) {
+    const form = document.getElementById(idForm);
+    form.style.display = "flex";
+
+    window.onclick = function(event) {
+        if (event.target === form) {
+            closePopup(idForm);
+        }
+    };
+}
+
+function closePopup(idForm) {
+    document.getElementById(idForm).style.display = "none";
+    window.onclick = null; 
+}
+
+
+function addNewCustomer(idForm) {
+    showPopup(idForm);
+}
+
+
+
+
 // Hiển thị form chuyển tiền khi nhấn nút "Chuyển tiền" bên ngoài form
 document.getElementById('transfer-button').addEventListener('click', function() {
     document.getElementById('transfer-form').style.display = 'block';
@@ -94,6 +119,12 @@ function addRowTransactions(data) {
     const transactionIDCell = document.createElement("td");
     transactionIDCell.textContent = data.transactionID;
 
+    const senderPhoneCell = document.createElement("td");
+    senderPhoneCell.textContent = data.senderPhone;
+    
+    const senderNameCell = document.createElement("td");
+    senderNameCell.textContent = data.senderName;
+
     const receiverPhoneCell = document.createElement("td");
     receiverPhoneCell.textContent = data.receiverPhone;
 
@@ -110,9 +141,11 @@ function addRowTransactions(data) {
     dateCell.textContent = data.transactionDate;
 
     const messageCell = document.createElement("td");
-    messageCell.textContent = data.transactionDate;
+    messageCell.textContent = data.message;
 
     row.appendChild(transactionIDCell);
+    row.appendChild(senderPhoneCell);
+    row.appendChild(senderNameCell);
     row.appendChild(receiverPhoneCell);
     row.appendChild(receiverNameCell);
     row.appendChild(amountCell);
@@ -181,11 +214,12 @@ function getDataTransactions() {
             filteredTransactions.forEach(element => {
                 addRowTransactions({
                     transactionID: element.transactionID,
+                    senderPhone: element.senderPhone,
+                    senderName: element.senderName,
                     receiverPhone: element.receiverPhone,
                     receiverName: element.receiverName,
                     transactionFee: element.transactionFee,
                     amount: element.amount,
-                    gender: element.gender,
                     transactionDate: element.transactionDate,
                     message: element.message,
                 });

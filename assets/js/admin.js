@@ -133,51 +133,6 @@ function getDataCustomer() {
     });
 }
 
-function filterListTransactions() {
-    const dataSearch = document.getElementById("transactionSearch").value.trim();
-    const transactionDate = document.getElementById("transactionDate").value.trim();
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/transactions",
-        success: function (res) {
-            console.log("API Response:", res);
-            const tableBody = document.getElementById("transactionTableBody");
-            tableBody.innerHTML = "";
-
-            // Lọc giao dịch dựa trên dữ liệu nhập
-            const filteredTransactions = res.filter((transaction) => {
-                const matchesID = dataSearch
-                    ? String(transaction.transactionID).includes(dataSearch)
-                    : true;
-                const matchesPhone = dataSearch
-                    ? transaction.senderPhone.includes(dataSearch)
-                    : true; 
-                // const matchesDate = transactionDate
-                //     ? transaction.transactionDate && transaction.transactionDate.includes(transactionDate)
-                //     : true;
-                return matchesID || matchesPhone;
-            });
-
-            // Hiển thị danh sách giao dịch đã lọc
-            if (filteredTransactions.length > 0) {
-                filteredTransactions.forEach((transaction) => {
-                    addRowTransactions(transaction); // Sử dụng đúng định dạng addRowTransactions
-                });
-            } else {
-                // Nếu không có kết quả, hiển thị thông báo
-                const noDataRow = `
-                    <tr>
-                        <td colspan="8" style="text-align: center;">Không tìm thấy giao dịch nào phù hợp!</td>
-                    </tr>`;
-                tableBody.insertAdjacentHTML("beforeend", noDataRow);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log("Error fetching transactions:", error);
-        },
-    });
-}
-
 function getDataEmployee() {
     $.ajax({
         type: "GET",
@@ -644,6 +599,51 @@ function deleteAccount(accountID) {
         error: function(xhr, status, error) {
             console.log(error); 
         }
+    });
+}
+
+function filterListTransactions() {
+    const dataSearch = document.getElementById("transactionSearch").value.trim();
+    // const transactionDate = document.getElementById("transactionDate").value.trim();
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/transactions",
+        success: function (res) {
+            console.log("API Response:", res);
+            const tableBody = document.getElementById("transactionTableBody");
+            tableBody.innerHTML = "";
+
+            // Lọc giao dịch dựa trên dữ liệu nhập
+            const filteredTransactions = res.filter((transaction) => {
+                const matchesID = dataSearch
+                    ? String(transaction.transactionID).includes(dataSearch)
+                    : true;
+                const matchesPhone = dataSearch
+                    ? transaction.senderPhone.includes(dataSearch)
+                    : true; 
+                // const matchesDate = transactionDate
+                //     ? transaction.transactionDate && transaction.transactionDate.includes(transactionDate)
+                //     : true;
+                return matchesID || matchesPhone;
+            });
+
+            // Hiển thị danh sách giao dịch đã lọc
+            if (filteredTransactions.length > 0) {
+                filteredTransactions.forEach((transaction) => {
+                    addRowTransactions(transaction); // Sử dụng đúng định dạng addRowTransactions
+                });
+            } else {
+                // Nếu không có kết quả, hiển thị thông báo
+                const noDataRow = `
+                    <tr>
+                        <td colspan="8" style="text-align: center;">Không tìm thấy giao dịch nào phù hợp!</td>
+                    </tr>`;
+                tableBody.insertAdjacentHTML("beforeend", noDataRow);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("Error fetching transactions:", error);
+        },
     });
 }
 

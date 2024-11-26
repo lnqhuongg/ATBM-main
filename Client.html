@@ -28,25 +28,6 @@
                 <button class="dropbtn">...</button>
                 <div class="dropdown-content">
                     <a href="#" onclick="addNewCustomer('edit-info-cus')">Thông tin cá nhân</a>
-                    <div class="pop-up-client">
-                        <span class="close" onclick="closePopup('edit-info-cus')">&times;</span>
-                        <form action="" id="edit-info-cus">
-                            <input type="text" placeholder="Tên nhân viên" required name="customer-name"/>
-                            <input type="text" placeholder="Địa chỉ" required name="customer-address"/>
-                            <input type="text" placeholder="Số điện thoại" required name="customer-phone"/>
-                            <input type="email" placeholder="Email" required name="customer-email"/>
-                            <input type="password" placeholder="Mật khẩu" required name="customer-password"/>
-                            <input type="password" placeholder="Mã pin" required name="customer-pin"/>
-                            <div>
-                                <label>Giới tính</label>
-                                <select name="gender-select" style="width: 100px;">
-                                    <option value="true">Nữ</option>
-                                    <option value="false">Nam</option>
-                                </select>
-                            </div>
-                            <button class="addCustomerModal" type="submit"><b>Lưu thông tin</b></button>
-                        </form>
-                    </div>
                     <a href="#" onclick="logout()">Đăng xuất</a>
                 </div>
             </div>
@@ -68,8 +49,8 @@
             <p><b><i>Lịch sử chuyển khoản</i></b></p>
             <div id="history-panel">
                 <!-- Di chuyển phần tìm kiếm và chọn ngày lên trên bảng -->
-                <div class="search-content-calendar">
-                    <div><input type="text" placeholder="Tìm kiếm mã GD hoặc SDT..."></div>
+                <form class="search-content-calendar">
+                    <!-- <div><input type="text" placeholder="Tìm kiếm mã GD hoặc SDT..."></div>
                     <div class="search-content-item-1">
                         <i class="far fa-calendar-alt"></i>
                         <label for="startDate"><b>Từ ngày</b></label> 
@@ -79,13 +60,19 @@
                         <i class="far fa-calendar-alt"></i>
                         <label for="endDate"><b>Đến ngày</b></label> 
                         <input id="endDate" placeholder="yyyy/mm/dd">
+                    </div> -->
+                    
+                    <div>
+                        <button onclick="addNewCustomer('decrypt')">Decrypt</button>
                     </div>
-                </div>
+                </form>
                 <table id="MyTable">
                     <thead>
                         <tr>
                             <th>Mã GD</th>
-                            <th>SĐT người nhận</th>
+                            <th>SĐT người chuyển</th>
+                            <th>Tên người chuyển</th>
+                            <th>Tên người nhận</th>
                             <th>Tên người nhận</th>
                             <th>Số tiền</th>
                             <th>Loại phí</th>
@@ -127,6 +114,18 @@
                 <button id="confirm-otp">Xác nhận</button>
             </div>
         </div> -->
+        <div id="decrypt" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup('decrypt')">&times;</span>
+                <form class="formDecrypt" id="decryptForm">
+                    <b>Key status:</b>
+                    <div class="button-decrypt">
+                        <button>Generate New Key</button>
+                        <button> Upload Key</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
     <script src="assets/js/Client.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
