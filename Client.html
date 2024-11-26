@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,13 @@
     <link rel="stylesheet" href="assets/css/Client.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -33,9 +40,34 @@
             </div>
         </div>
     </header>
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Quản lý khóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" id="fileInput" accept=".txt" />
+                    <button onclick="SetupAccountKeys()">Generate New Key</button>
+                    <button onclick="UploadKey()">Upload Key</button>
+                    <button onclick="SaveKey()">Download Key</button>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
     <main class="container">
         <div class="sidebar">
             <button id="transfer-button"><b>Chuyển tiền</b></button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Quản lý khóa
+            </button>
         </div>
         <div class="content" id="transfer-form" style="display: none;">
             <input type="text" id="phoneNumber" placeholder="Số điện thoại người nhận">
@@ -43,7 +75,8 @@
             <input type="text" id="amount" placeholder="Số tiền chuyển">
             <input type="text" id="message" placeholder="Nội dung chuyển khoản">
             <button id="submit-transfer" onclick="processTopUp()" type="button"><b>Chuyển tiền</b></button>
-            <button id="close-transfer-form"><<<</button>
+            <button id="close-transfer-form">
+                <<< </button>
         </div>
         <div class="sidebar-right">
             <p><b><i>Lịch sử chuyển khoản</i></b></p>
@@ -61,10 +94,10 @@
                         <label for="endDate"><b>Đến ngày</b></label> 
                         <input id="endDate" placeholder="yyyy/mm/dd">
                     </div> -->
-                    
-                    <div>
+
+                    <!-- <div>
                         <button onclick="addNewCustomer('decrypt')">Decrypt</button>
-                    </div>
+                    </div> -->
                 </form>
                 <table id="MyTable">
                     <thead>
@@ -86,7 +119,7 @@
                 </table>
             </div>
         </div>
-        
+
         <!-- Popup for password input -->
         <!-- <div id="popup" class="popup">
             <div class="popup-content">
@@ -114,7 +147,7 @@
                 <button id="confirm-otp">Xác nhận</button>
             </div>
         </div> -->
-        <div id="decrypt" class="popup">
+        <!-- <div id="decrypt" class="popup">
             <div class="popup-content">
                 <span class="close" onclick="closePopup('decrypt')">&times;</span>
                 <form class="formDecrypt" id="decryptForm">
@@ -125,13 +158,15 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
     </main>
+
     <script src="assets/js/Client.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script> 
-        flatpickr("#startDate", {}); 
+    <script>
+        flatpickr("#startDate", {});
         flatpickr("#endDate", {}); 
     </script>
 </body>
+
 </html>

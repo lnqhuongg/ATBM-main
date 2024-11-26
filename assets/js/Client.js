@@ -196,21 +196,76 @@ function getDataTransactions() {
     
     const user = JSON.parse(currentUser);
     const userID = user.accountID; // Lấy accountID của người dùng đang đăng nhập
+    fetchAndProcessTransactions(userID);
+    
+}
+// Function to fetch and filter transactions asynchronously
+// Function to fetch and process transactions asynchronously
+async function fetchAndProcessTransactions(userID) {
+    try {
+        const response = await fetch("http://localhost:8080/transactions");
+        if (!response.ok) {
+            throw new Error("Failed to fetch transactions");
+        }
+        const res = await response.json();
+        console.log("API Response:", res);
 
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/transactions",
-        success: function (res) {
-            console.log("API Response:", res);
-            const tableBody = document.getElementById("transactionTableBody");
-            tableBody.innerHTML = "";  // Xóa các giao dịch cũ trong bảng
+        const tableBody = document.getElementById("transactionTableBody");
+        tableBody.innerHTML = ""; // Clear old transactions in the table
 
-            // Lọc các giao dịch của người dùng (người chuyển hoặc người nhận)
-            const filteredTransactions = res.filter(transaction => {
-                return transaction.senderid === userID || transaction.receiverid === userID;
-            });
+        // Filter transactions for the user
+        const filteredTransactions = res.filter(transaction => {
+            return transaction.senderId == userID || transaction.receiverid == userID;
+        });
 
-            // Hiển thị các giao dịch đã lọc
+        if (sessionStorage.getItem('RSAPrivateKey') != null) {
+            for (const element of filteredTransactions) {
+                try {
+                    // Prepare plaintext data for the POST request
+                    const plaintextData = element.message;
+
+                    const decryptResponse = await fetch(`http://localhost:8080/transactions/${element.transactionID}/decrypt`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'text/plain', // Ensure the server knows it's plaintext
+                            'rsaKeyBase64': sessionStorage.getItem('RSAPrivateKey')
+                        },
+                        body: plaintextData
+                    });
+
+                    if (!decryptResponse.ok) {
+                        throw new Error(`Failed to decrypt message for transaction ID: ${element.transactionID}`);
+                    }
+
+                    const decryptedMsg = await decryptResponse.text();
+                    addRowTransactions({
+                        transactionID: element.transactionID,
+                        senderPhone: element.senderPhone,
+                        senderName: element.senderName,
+                        receiverPhone: element.receiverPhone,
+                        receiverName: element.receiverName,
+                        transactionFee: element.transactionFee,
+                        amount: element.amount,
+                        transactionDate: element.transactionDate,
+                        message: decryptedMsg,
+                    });
+                } catch (decryptError) {
+                    console.error("Error decrypting message:", decryptError);
+                    addRowTransactions({
+                        transactionID: element.transactionID,
+                        senderPhone: element.senderPhone,
+                        senderName: element.senderName,
+                        receiverPhone: element.receiverPhone,
+                        receiverName: element.receiverName,
+                        transactionFee: element.transactionFee,
+                        amount: element.amount,
+                        transactionDate: element.transactionDate,
+                        message: element.message,
+                    });
+                }
+            }
+        } else {
+            // Add transactions directly without decryption
             filteredTransactions.forEach(element => {
                 addRowTransactions({
                     transactionID: element.transactionID,
@@ -224,8 +279,10 @@ function getDataTransactions() {
                     message: element.message,
                 });
             });
-        },
-    });
+        }
+    } catch (error) {
+        console.error("Error fetching transactions:", error);
+    }
 }
 
 
@@ -422,7 +479,7 @@ function processTopUp() {
 
     // Dữ liệu gửi đi
     const transactionData = {
-        senderid: senderID,  // Sử dụng senderid
+        senderId: senderID,  // Sử dụng senderid
         senderPhone,
         senderName,
         receiverPhone,
@@ -492,10 +549,13 @@ function DecryptMessage(transactionID,EncryptedMessage){
         },
     });
 }
-function SetupAccountKeys(accountID){
+function SetupAccountKeys(){
+    const currentUser = sessionStorage.getItem('currentUser');
+    const user = JSON.parse(currentUser);
+    const userID = user.accountID;
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/account/"+accountID+"/generateKey", 
+        url: "http://localhost:8080/accounts/"+userID+"/generateKey", 
         success: function (res) {
             alert("Khỏi tạo khóa thành công!");
             console.log("Key Response:", res);
