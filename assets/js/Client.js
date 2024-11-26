@@ -193,7 +193,7 @@ function getDataTransactions() {
         alert('Bạn chưa đăng nhập!');
         return;
     }
-
+    
     const user = JSON.parse(currentUser);
     const userID = user.accountID; // Lấy accountID của người dùng đang đăng nhập
 
@@ -473,6 +473,87 @@ function makeTransactionRequest(transactionData, amount, senderID, receiverPhone
         },
     });
 }
+function DecryptMessage(transactionID,EncryptedMessage){
+    var RSAPrivateKey = sessionStorage.getItem('RSAPrivateKey');
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/transactions/"+transactionID+"/decrypt", 
+        headers: { 'Accept': '*/*', 'Content-Type': 'application/json' ,'rsaKeyBase64':RSAPrivateKey},
+        dataType: "json",
+        data: EncryptedMessage, 
+        success: function (res) {
+            alert("Giải mã Thành công!");
+            console.log("Transaction Response:", res);
+
+        },
+        error: function (err) {
+            console.error("Transaction Error:", err);
+            alert("Giao dịch thất bại! Vui lòng thử lại.");
+        },
+    });
+}
+function SetupAccountKeys(accountID){
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/account/"+accountID+"/generateKey", 
+        success: function (res) {
+            alert("Khỏi tạo khóa thành công!");
+            console.log("Key Response:", res);
+            sessionStorage.setItem('RSAPrivateKey', res); // Set key vào session
+        },
+        error: function (err) {
+            console.error("Transaction Error:", err);
+            alert("Giao dịch thất bại! Vui lòng thử lại.");
+        },
+    });
+}
+function UploadKey() {
+    const fileInput = document.getElementById("fileInput");
+
+    if (!fileInput.files.length) {
+      alert("Please select a file first.");
+      return;
+    }
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+      const content = event.target.result;
+      sessionStorage.setItem("RSAPrivateKey", content);
+      alert("Key uploaded and saved to sessionStorage.");
+    };
+
+    reader.onerror = function () {
+      alert("Failed to read the file.");
+    };
+
+    reader.readAsText(file);
+  }
+
+  // Download the key stored in sessionStorage as a text file
+  function SaveKey() {
+    const key = sessionStorage.getItem("RSAPrivateKey");
+
+    if (!key) {
+      alert("No key found in sessionStorage.");
+      return;
+    }
+
+    // Create a Blob and trigger a download
+    const blob = new Blob([key], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "RSAPrivateKey.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    alert("Key downloaded successfully.");
+  }
+
 
 function updateBalance(accountID, amount) {
     // Cập nhật số dư cho tài khoản thông qua accountID

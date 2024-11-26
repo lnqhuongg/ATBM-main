@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key Upload and Download</title>
+</head>
+<body>
+  <h2>Upload and Save Key</h2>
+  <input type="file" id="fileInput" accept=".txt" />
+  <button onclick="UploadKey()">Upload Key</button>
+  <button onclick="SaveKey()">Download Key</button>
+
+  <script>
+    // Upload a text file and save its content to sessionStorage
+    function UploadKey() {
+      const fileInput = document.getElementById("fileInput");
+
+      if (!fileInput.files.length) {
+        alert("Please select a file first.");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const content = event.target.result;
+        sessionStorage.setItem("RSAPrivateKey", content);
+        alert("Key uploaded and saved to sessionStorage.");
+      };
+
+      reader.onerror = function () {
+        alert("Failed to read the file.");
+      };
+
+      reader.readAsText(file);
+    }
+
+    // Download the key stored in sessionStorage as a text file
+    function SaveKey() {
+      const key = sessionStorage.getItem("RSAPrivateKey");
+
+      if (!key) {
+        alert("No key found in sessionStorage.");
+        return;
+      }
+
+      // Create a Blob and trigger a download
+      const blob = new Blob([key], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "RSAPrivateKey.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert("Key downloaded successfully.");
+    }
+  </script>
+</body>
+</html>
